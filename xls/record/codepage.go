@@ -27,5 +27,5 @@ func (r *CodePage) Read(stream []byte) {
 }
 
 func (r *CodePage) Uint16Value() uint16 {
-	return binary.BigEndian.Uint16(r.cv[:])
+	return binary.LittleEndian.Uint16(r.cv[:])
 }
