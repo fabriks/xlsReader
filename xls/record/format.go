@@ -66,7 +66,7 @@ func (r *Format) String() string {
 		return r.stFormat.String()
 	}
 	strLen := helpers.BytesToUint16(r.cch[:])
-	return strings.TrimSpace(string(decodeWindows1251(bytes.Trim(r.rgb[:int(strLen)], "\x00"))))
+	return strings.TrimSpace(string(decodeWindows1250(bytes.Trim(r.rgb[:int(strLen)], "\x00"))))
 
 }
 

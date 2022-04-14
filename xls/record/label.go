@@ -38,12 +38,12 @@ type LabelBIFF8 struct {
 }
 
 type LabelBIFF5 struct {
-	rw   [2]byte
-	col  [2]byte
-	ixfe [2]byte
-	cch  [2]byte
+	rw    [2]byte
+	col   [2]byte
+	ixfe  [2]byte
+	cch   [2]byte
 	grbit [1]byte
-	rgb  []byte
+	rgb   []byte
 }
 
 func (r *LabelBIFF8) GetRow() [2]byte {
@@ -60,7 +60,7 @@ func (r *LabelBIFF8) GetString() string {
 		runes := utf16.Decode(name)
 		return string(runes)
 	} else {
-		return string(decodeWindows1251(r.rgb[:]))
+		return string(decodeWindows1250(r.rgb[:]))
 	}
 }
 
@@ -105,7 +105,7 @@ func (r *LabelBIFF5) GetCol() [2]byte {
 
 func (r *LabelBIFF5) GetString() string {
 	strLen := helpers.BytesToUint16(r.cch[:])
-	return strings.TrimSpace(string(decodeWindows1251(r.rgb[:int(strLen)])))
+	return strings.TrimSpace(string(decodeWindows1250(r.rgb[:int(strLen)])))
 }
 
 func (r *LabelBIFF5) GetFloat64() (fl float64) {
@@ -134,8 +134,8 @@ func (r *LabelBIFF5) Read(stream []byte) {
 	copy(r.rgb[:], stream[8:])
 }
 
-func decodeWindows1251(ba []uint8) []uint8 {
-	dec := charmap.Windows1251.NewDecoder()
+func decodeWindows1250(ba []uint8) []uint8 {
+	dec := charmap.Windows1250.NewDecoder()
 	out, _ := dec.Bytes(ba)
 	return out
 }

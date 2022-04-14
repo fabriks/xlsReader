@@ -42,7 +42,6 @@ type BoundSheet struct {
 	Rgch     []byte
 	stFormat structure.XLUnicodeRichExtendedString
 	vers     []byte
-
 }
 
 func (r *BoundSheet) Read(stream []byte, vers []byte) {
@@ -55,7 +54,7 @@ func (r *BoundSheet) Read(stream []byte, vers []byte) {
 
 	if bytes.Compare(vers, FlagBIFF8) == 0 {
 
-		fixedStream:=[]byte{r.Cch[0],0x00}
+		fixedStream := []byte{r.Cch[0], 0x00}
 		fixedStream = append(fixedStream, stream[7:]...)
 		_ = r.stFormat.Read(fixedStream)
 
@@ -69,5 +68,5 @@ func (r *BoundSheet) GetName() string {
 		return r.stFormat.String()
 	}
 	strLen := int(r.Cch[0])
-	return strings.TrimSpace(string(decodeWindows1251(bytes.Trim(r.Rgch[:int(strLen)], "\x00"))))
+	return strings.TrimSpace(string(decodeWindows1250(bytes.Trim(r.Rgch[:int(strLen)], "\x00"))))
 }
