@@ -1,5 +1,7 @@
 package record
 
+import "encoding/binary"
+
 // CODEPAGE: Default Code Page
 var CodePageRecord = [2]byte{0x42, 0x00} //(42h)
 
@@ -20,7 +22,10 @@ type CodePage struct {
 	cv [2]byte
 }
 
-
 func (r *CodePage) Read(stream []byte) {
-	copy(r.cv[:],stream[:])
+	copy(r.cv[:], stream[:])
+}
+
+func (r *CodePage) Uint16Value() uint16 {
+	return binary.BigEndian.Uint16(r.cv[:])
 }
